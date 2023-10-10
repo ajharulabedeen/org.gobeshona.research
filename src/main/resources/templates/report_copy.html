@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Report Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h2>Report Page</h2>
+<button id="showReportButton">Show Report</button>
+<div id="reportContainer"></div>
+
+<script th:inline="javascript">
+    $('#showReportButton').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/fetch-report',
+            success: function (data) {
+                $('#reportContainer').html(data);
+            },
+            error: function () {
+                alert('Error loading report.');
+            }
+        });
+    });
+</script>
+</body>
+</html>

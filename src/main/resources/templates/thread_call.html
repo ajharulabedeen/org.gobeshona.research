@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<button id="executeButton">Execute Task and Confirmation</button>
+<div id="taskResult"></div>
+<div id="confirmationResult"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#executeButton").click(function () {
+            var threadName = "demoData" + Math.floor(Math.random() * 1000); // Generate a unique number
+
+            // AJAX call to /task API
+            $.ajax({
+                url: "http://localhost:9090/api/task",
+                type: "GET",
+                data: {
+                    threadName: threadName
+                },
+                success: function (taskResponse) {
+                    $("#taskResult").html("Task API Response: " + taskResponse);
+                },
+                error: function () {
+                    $("#taskResult").html("Error calling Task API");
+                }
+            });
+
+            var millisecondsToWait = 1500;
+            setTimeout(function () {
+                $("#confirmationResult").html("");
+                $("#taskResult").html("");
+                // AJAX call to /confirmation API
+                $.ajax({
+                    url: "http://localhost:9090/api/confirmation",
+                    type: "GET",
+                    data: {
+                        threadName: threadName
+                    },
+                    success: function (confirmationResponse) {
+                        $("#confirmationResult").html("");
+                        $("#confirmationResult").html("Confirmation API Response: " + confirmationResponse);
+                        // if (confirmationResponse.indexOf("TIME OUT ")) {
+                        //     $("#confirmationResult").css("color", "red"); // Set color to green on success
+                        // }
+                        if (confirmationResponse.indexOf("TIME OUT ") >= 0) {
+                            $("#confirmationResult").css("background-color", "red");
+                        }
+
+                    },
+                    error: function () {
+                        $("#confirmationResult").html("Error calling Confirmation API");
+                    }
+                });
+            }, millisecondsToWait);
+
+            // AJAX call to /confirmation API
+            // $.ajax({
+            //     url: "http://localhost:9090/api/confirmation",
+            //     type: "GET",
+            //     data: {
+            //         threadName: threadName
+            //     },
+            //     success: function(confirmationResponse) {
+            //         $("#confirmationResult").html("Confirmation API Response: " + confirmationResponse);
+            //     },
+            //     error: function() {
+            //         $("#confirmationResult").html("Error calling Confirmation API");
+            //     }
+            // });
+        });
+    });
+</script>
+</body>
+</html>

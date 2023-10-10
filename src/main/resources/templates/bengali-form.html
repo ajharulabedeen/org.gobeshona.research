@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bengali Form</title>
+</head>
+<body>
+
+<h2>Bengali Form</h2>
+
+<form th:action="@{/form}" th:object="${bengaliEntry}" method="post">
+    <label for="bengaliText">Enter Bengali Text:</label>
+    <input type="text" id="bengaliText" th:field="*{bengaliText}"/><br>
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

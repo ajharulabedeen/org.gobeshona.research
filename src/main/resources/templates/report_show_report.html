@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Report Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h2>Report Page</h2>
+<button id="showReportButton" class="btn btn-primary" data-toggle="modal" data-target="#reportModal">Show Report</button>
+
+<!-- Report Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Report Content</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="reportContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    $('#showReportButton').click(function() {
+        $.ajax({
+            type: 'GET',
+            url: '/fetch-report',
+            success: function(data) {
+                // Center the HTML content
+                var centeredHtml = '<div class="d-flex justify-content-center align-items-center" style="height: 100%;">' + data + '</div>';
+                $('#reportContainer').html(centeredHtml);
+                $('#reportModal').modal('show');  // Show the modal
+            },
+            error: function() {
+                alert('Error loading report.');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
