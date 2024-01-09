@@ -1,0 +1,13 @@
+<form th:action="@{/submitForm}" method="post">
+    <select th:field="*{selectedOptions1}" multiple="multiple">
+        <option th:each="option : ${allOptions1}" th:value="${option}" th:text="${option}"
+                th:selected="${selectedOptions1.contains(option)}"></option>
+    </select>
+
+    <select th:field="*{selectedOptions2}" multiple="multiple">
+        <option th:each="option : ${allOptions2}" th:value="${option}" th:text="${option}"
+                th:selected="${selectedOptions2.contains(option)}"></option>
+    </select>
+
+    <button type="submit">Submit</button>
+</form>

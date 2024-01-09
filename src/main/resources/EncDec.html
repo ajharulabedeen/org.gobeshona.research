@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encryption in JavaScript & Decryption in Java</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<label for="userInput">Enter your name:</label>
+<input type="text" id="userInput">
+<button onclick="getUserInput()">Submit</button>
+<p id="output"></p>
+<button id="decryptButton" onclick="doDecrypt()">Decrypt</button>
+<p id="decryptedText"></P>
+
+<script>
+    var userInput = '';
+
+    // Get the value entered by the user
+    function getUserInput() {
+        // Get the value entered by the user
+        userInput = document.getElementById('userInput').value;
+
+        // Display the user input
+        var outputElement = document.getElementById('output');
+
+
+        // JavaScript (AES Encryption)
+        var plaintext = userInput;
+
+        var key = CryptoJS.enc.Utf8.parse('YourSecretKey123'); // Replace with your own key
+        var iv = CryptoJS.enc.Utf8.parse('YourIV1234567890'); // Replace with your own IV
+
+        var encrypted = CryptoJS.AES.encrypt(
+            plaintext,
+            key,
+            {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }
+        );
+
+        var ciphertext = encrypted.toString();
+
+        console.log("Encrypted:", ciphertext);
+
+        outputElement.textContent = ciphertext;
+
+    }
+
+
+    function doDecrypt() {
+        //var encryptedText = $('#output').text();//
+        var encryptedText = document.getElementById('output').innerText;
+
+        console.log('text sending : ' + encryptedText);
+
+        // $.ajax({
+        //     url: 'http://localhost:6161/api/decrypt/' + encodeURIComponent(encryptedText),
+        //     type: 'POST',
+        //     contentType: 'application/json',
+        //     success: function (data) {
+        //         $('#decryptedText').text(data);
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.error(status + ': ' + error);
+        //     }
+        // });
+
+    /**
+     $.ajax({
+                    url: 'http://localhost:6161/api/decrypt',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(encryptedText),
+                    success: function(data) {
+                        $('#decryptedText').text(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(status + ': ' + error);
+                    }
+                });
+
+     }
+
+
+
+     // You can send 'ciphertext' to your Java backend for decryption
+</script>
+
+<script>
+    // Java code (AES Decryption)
+
+    // Assuming the Java code is in a separate file or on the server-side
+    // This is just for demonstration purposes and wouldn't be executed in the browser
+
+    // Java code should use Java SE with the appropriate Java libraries
+    // Refer to the Java example provided in the previous response
+</script>
+</body>
+</html>
